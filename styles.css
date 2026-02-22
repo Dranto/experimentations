@@ -1,0 +1,264 @@
+:root {
+  --honey: #ffc93c;
+  --honey-deep: #ffb703;
+  --bee-black: #2b2b2b;
+  --cream: #fff8e7;
+  --accent: #ffd84d;
+  --shadow: rgba(0, 0, 0, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: radial-gradient(circle at top, #fff3b0 0%, #ffd166 35%, #f4a261 100%);
+  min-height: 100vh;
+  color: var(--bee-black);
+}
+
+.app-bg {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.bee-player {
+  position: relative;
+  width: min(420px, 95vw);
+  background: linear-gradient(145deg, #fff8dc, #ffe58f);
+  border: 3px solid #2b2b2b22;
+  border-radius: 24px;
+  padding: 22px 20px;
+  box-shadow: 0 20px 40px var(--shadow), inset 0 0 0 2px #fff6;
+  overflow: hidden;
+  animation: floatCard 3.5s ease-in-out infinite;
+}
+
+.honey-glow {
+  position: absolute;
+  inset: -80px;
+  background: radial-gradient(circle, #ffd84d88 0%, transparent 60%);
+  filter: blur(8px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.player-header,
+.time-row,
+.progress-wrap,
+.controls,
+.settings {
+  position: relative;
+  z-index: 1;
+}
+
+.player-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.track-meta h1 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.track-meta p {
+  margin: 2px 0 0;
+  opacity: 0.75;
+  font-size: 0.9rem;
+}
+
+.bee-icon {
+  position: relative;
+  width: 56px;
+  height: 40px;
+}
+
+.bee-body {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 36px;
+  height: 22px;
+  border-radius: 999px;
+  background: repeating-linear-gradient(90deg, #1f1f1f 0 7px, var(--honey) 7px 14px);
+  border: 2px solid #1f1f1f;
+  z-index: 2;
+}
+
+.wing {
+  position: absolute;
+  width: 18px;
+  height: 16px;
+  background: #ffffffd0;
+  border: 2px solid #00000020;
+  border-radius: 50% 50% 40% 40%;
+  top: 2px;
+  z-index: 1;
+  transform-origin: bottom center;
+  animation: flap 0.22s ease-in-out infinite alternate;
+}
+
+.wing-left {
+  left: 12px;
+  transform: rotate(-18deg);
+}
+
+.wing-right {
+  left: 27px;
+  transform: rotate(18deg);
+  animation-delay: 0.05s;
+}
+
+.time-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 2px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.progress-wrap {
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.progress-track {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  background: #0000001a;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--honey), var(--honey-deep));
+  box-shadow: 0 0 12px #ffb703aa;
+  transition: width 0.08s linear;
+}
+
+.progress-shimmer {
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #ffffffaa, transparent);
+  animation: shimmer 1.8s linear infinite;
+  pointer-events: none;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.control-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.control-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  filter: brightness(1.04);
+}
+
+.control-btn:active {
+  transform: scale(0.97);
+}
+
+.control-btn.primary {
+  min-width: 64px;
+  background: #1f1f1f;
+  color: var(--honey);
+  box-shadow: 0 10px 20px #00000030;
+}
+
+.control-btn.primary.playing {
+  animation: pulsePlay 1s ease-in-out infinite;
+}
+
+.control-btn.secondary {
+  background: #fff;
+  color: #1f1f1f;
+  border: 2px solid #00000020;
+}
+
+.settings {
+  display: grid;
+  gap: 10px;
+}
+
+.setting-group {
+  display: grid;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #f4b400;
+}
+
+select {
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 10px;
+  border: 1px solid #0000002c;
+  background: #fffef7;
+  font-weight: 600;
+}
+
+@keyframes flap {
+  from {
+    transform: rotate(-22deg);
+  }
+  to {
+    transform: rotate(16deg);
+  }
+}
+
+@keyframes floatCard {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes pulsePlay {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 #ffb70388;
+  }
+  50% {
+    box-shadow: 0 0 0 14px transparent;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    left: -40%;
+  }
+  to {
+    left: 120%;
+  }
+}
