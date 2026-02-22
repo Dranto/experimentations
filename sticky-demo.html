@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bee Player Sticky Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="demo-layout">
+      <article class="demo-content">
+        <h1>Page de démonstration</h1>
+        <p>
+          Cette page permet de scroller et naviguer dans du contenu pendant que le player abeille reste
+          toujours visible en haut à droite.
+        </p>
+
+        <section>
+          <h2>Section 1</h2>
+          <p>Contenu exemple pour simuler une vraie page. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p>Maecenas congue, neque a luctus rutrum, urna sem faucibus orci, vel commodo mi risus at lorem.</p>
+        </section>
+        <section>
+          <h2>Section 2</h2>
+          <p>Morbi id nibh at urna pellentesque iaculis. Phasellus non nisi in velit dignissim feugiat.</p>
+          <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+        </section>
+        <section>
+          <h2>Section 3</h2>
+          <p>Donec pulvinar erat in ante varius, et malesuada augue dapibus. Suspendisse potenti.</p>
+          <p>Sed eleifend, lectus in cursus feugiat, lectus magna blandit augue, nec varius leo sem nec velit.</p>
+        </section>
+        <section>
+          <h2>Section 4</h2>
+          <p>Praesent ut lectus eget turpis tristique volutpat. Integer ultrices, nibh id fermentum volutpat.</p>
+          <p>Aliquam erat volutpat. Aenean gravida tempus eros, a fermentum metus bibendum a.</p>
+        </section>
+        <section>
+          <h2>Section 5</h2>
+          <p>Nam nec ipsum accumsan, faucibus odio id, pulvinar ex. Integer ac mauris id elit aliquam iaculis.</p>
+          <p>Curabitur et tortor venenatis, volutpat ipsum in, feugiat nibh. Cras at lacus et mi tempor posuere.</p>
+        </section>
+      </article>
+
+      <aside class="sticky-panel">
+        <section class="bee-player" aria-label="Lecteur audio abeille sticky">
+          <span class="wing wing-left" aria-hidden="true"></span>
+          <span class="wing wing-right" aria-hidden="true"></span>
+          <span class="antenna antenna-left" aria-hidden="true"></span>
+          <span class="antenna antenna-right" aria-hidden="true"></span>
+
+          <header class="bee-face" aria-hidden="true">
+            <div class="eye-row">
+              <span class="eye"></span>
+              <span class="eye"></span>
+            </div>
+            <span class="smile"></span>
+          </header>
+
+          <div class="time-row">
+            <span id="currentTime">00:00</span>
+            <span id="duration">00:00</span>
+          </div>
+
+          <button id="playPauseBtn" class="play-btn" aria-label="Lecture / Pause">
+            <span id="playPauseIcon">▶</span>
+            <span class="btn-ripple" aria-hidden="true"></span>
+          </button>
+
+          <div class="progress-wrap" id="progressWrap" aria-label="Barre de progression audio">
+            <div class="progress-track">
+              <div class="progress-fill" id="progressFill"></div>
+              <div class="progress-thumb" id="progressThumb"></div>
+            </div>
+          </div>
+
+          <label class="volume-group" for="volumeSlider">
+            <span>Volume</span>
+            <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.8" />
+          </label>
+
+          <audio id="audio" preload="metadata" src="assets/audio/honey-song.mp3"></audio>
+        </section>
+      </aside>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
