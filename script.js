@@ -1,36 +1,32 @@
 const audio = document.getElementById("audio");
-const player = document.querySelector(".bee-player");
 const playPauseBtn = document.getElementById("playPauseBtn");
 const playPauseIcon = document.getElementById("playPauseIcon");
+const rewindBtn = document.getElementById("rewindBtn");
+const forwardBtn = document.getElementById("forwardBtn");
 const progressWrap = document.getElementById("progressWrap");
 const progressFill = document.getElementById("progressFill");
-const progressThumb = document.getElementById("progressThumb");
 const currentTimeEl = document.getElementById("currentTime");
 const durationEl = document.getElementById("duration");
 const volumeSlider = document.getElementById("volumeSlider");
+const speedSelect = document.getElementById("speedSelect");
 
 let isDragging = false;
 
-function formatTime(seconds) {
-  if (!Number.isFinite(seconds)) {
+function formatTime(sec) {
+  if (!Number.isFinite(sec)) {
     return "00:00";
   }
 
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  const min = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+
+  return `${String(min).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-function setProgress(percentage) {
-  const value = Math.max(0, Math.min(100, percentage));
-  progressFill.style.width = `${value}%`;
-  progressThumb.style.left = `${value}%`;
-}
-
-function updateTimeline() {
+function updateProgress() {
   const { currentTime, duration } = audio;
-  const percentage = duration ? (currentTime / duration) * 100 : 0;
-  setProgress(percentage);
+  const percent = duration ? (currentTime / duration) * 100 : 0;
+  progressFill.style.width = `${percent}%`;
   currentTimeEl.textContent = formatTime(currentTime);
   durationEl.textContent = formatTime(duration);
 }
@@ -38,61 +34,59 @@ function updateTimeline() {
 function seekByClientX(clientX) {
   const rect = progressWrap.getBoundingClientRect();
   const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-  const ratio = rect.width ? x / rect.width : 0;
-  audio.currentTime = ratio * (audio.duration || 0);
+  const ratio = x / rect.width;
+  audio.currentTime = ratio * audio.duration;
 }
 
-function togglePlayPause() {
+function togglePlay() {
   if (audio.paused) {
     audio.play();
-    return;
+  } else {
+    audio.pause();
   }
-
-  audio.pause();
 }
 
-function animateButtonPress() {
-  playPauseBtn.classList.remove("pressed");
-  void playPauseBtn.offsetWidth;
-  playPauseBtn.classList.add("pressed");
-}
-
-playPauseBtn.addEventListener("click", () => {
-  animateButtonPress();
-  togglePlayPause();
-});
+playPauseBtn.addEventListener("click", togglePlay);
 
 audio.addEventListener("play", () => {
   playPauseIcon.textContent = "⏸";
-  player.classList.add("is-playing");
+  playPauseBtn.classList.add("playing");
 });
 
 audio.addEventListener("pause", () => {
   playPauseIcon.textContent = "▶";
-  player.classList.remove("is-playing");
+  playPauseBtn.classList.remove("playing");
 });
+
+audio.addEventListener("timeupdate", () => {
+  if (!isDragging) {
+    updateProgress();
+  }
+});
+
+audio.addEventListener("loadedmetadata", updateProgress);
 
 audio.addEventListener("ended", () => {
   playPauseIcon.textContent = "▶";
-  player.classList.remove("is-playing");
+  playPauseBtn.classList.remove("playing");
 });
 
-audio.addEventListener("loadedmetadata", updateTimeline);
-audio.addEventListener("timeupdate", () => {
-  if (!isDragging) {
-    updateTimeline();
-  }
+rewindBtn.addEventListener("click", () => {
+  audio.currentTime = Math.max(0, audio.currentTime - 10);
+});
+
+forwardBtn.addEventListener("click", () => {
+  const maxDuration = audio.duration || 0;
+  audio.currentTime = Math.min(maxDuration, audio.currentTime + 10);
 });
 
 progressWrap.addEventListener("click", (event) => {
   seekByClientX(event.clientX);
-  updateTimeline();
 });
 
 progressWrap.addEventListener("pointerdown", (event) => {
   isDragging = true;
   seekByClientX(event.clientX);
-  updateTimeline();
 });
 
 window.addEventListener("pointermove", (event) => {
@@ -101,7 +95,6 @@ window.addEventListener("pointermove", (event) => {
   }
 
   seekByClientX(event.clientX);
-  updateTimeline();
 });
 
 window.addEventListener("pointerup", () => {
@@ -112,5 +105,9 @@ volumeSlider.addEventListener("input", () => {
   audio.volume = Number(volumeSlider.value);
 });
 
+speedSelect.addEventListener("change", () => {
+  audio.playbackRate = Number(speedSelect.value);
+});
+
 audio.volume = Number(volumeSlider.value);
-updateTimeline();
+audio.playbackRate = Number(speedSelect.value);

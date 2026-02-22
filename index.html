@@ -3,23 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bee Player Component</title>
+    <title>Bee Audio Player</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="app-bg app-bg--centered">
-      <section class="bee-player" aria-label="Lecteur audio abeille">
-        <span class="wing wing-left" aria-hidden="true"></span>
-        <span class="wing wing-right" aria-hidden="true"></span>
-        <span class="antenna antenna-left" aria-hidden="true"></span>
-        <span class="antenna antenna-right" aria-hidden="true"></span>
+    <main class="app-bg">
+      <section class="bee-player" aria-label="Lecteur audio personnalisé">
+        <div class="honey-glow"></div>
 
-        <header class="bee-face" aria-hidden="true">
-          <div class="eye-row">
-            <span class="eye"></span>
-            <span class="eye"></span>
+        <header class="player-header">
+          <div class="bee-icon" aria-hidden="true">
+            <span class="wing wing-left"></span>
+            <span class="wing wing-right"></span>
+            <span class="bee-body"></span>
           </div>
-          <span class="smile"></span>
+          <div class="track-meta">
+            <h1>Honey Vibes</h1>
+            <p>Audio player thème abeille</p>
+          </div>
         </header>
 
         <div class="time-row">
@@ -27,22 +28,41 @@
           <span id="duration">00:00</span>
         </div>
 
-        <button id="playPauseBtn" class="play-btn" aria-label="Lecture / Pause">
-          <span id="playPauseIcon">▶</span>
-          <span class="btn-ripple" aria-hidden="true"></span>
-        </button>
-
-        <div class="progress-wrap" id="progressWrap" aria-label="Barre de progression audio">
+        <div class="progress-wrap" id="progressWrap" aria-label="Barre de progression">
           <div class="progress-track">
             <div class="progress-fill" id="progressFill"></div>
-            <div class="progress-thumb" id="progressThumb"></div>
+            <div class="progress-shimmer"></div>
           </div>
         </div>
 
-        <label class="volume-group" for="volumeSlider">
-          <span>Volume</span>
-          <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.8" />
-        </label>
+        <div class="controls">
+          <button id="rewindBtn" class="control-btn secondary" aria-label="Reculer de 10 secondes">
+            ⏪ 10s
+          </button>
+          <button id="playPauseBtn" class="control-btn primary" aria-label="Lecture / Pause">
+            <span id="playPauseIcon">▶</span>
+          </button>
+          <button id="forwardBtn" class="control-btn secondary" aria-label="Avancer de 10 secondes">
+            10s ⏩
+          </button>
+        </div>
+
+        <div class="settings">
+          <label class="setting-group">
+            <span>Volume</span>
+            <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.8" />
+          </label>
+
+          <label class="setting-group">
+            <span>Vitesse</span>
+            <select id="speedSelect">
+              <option value="0.75">0.75x</option>
+              <option value="1" selected>1x</option>
+              <option value="1.25">1.25x</option>
+              <option value="1.5">1.5x</option>
+            </select>
+          </label>
+        </div>
 
         <audio id="audio" preload="metadata" src="assets/audio/honey-song.mp3"></audio>
       </section>
